@@ -15,4 +15,6 @@ router.route('/linha/:linha/veiculo').get(brtController.getVeiculos);
 router.route('/linha/:linha/trajeto-latlong').get(brtController.getTrajetoLatLong);
 router.route('/linha/:linha/trajeto').get(brtController.getTrajeto);
 
+router.route('/ponto/:ponto').get(brtController.getLinhasDoPonto);
+
 module.exports = router;

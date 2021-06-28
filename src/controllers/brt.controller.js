@@ -29,10 +29,16 @@ const getTrajetoLatLong = catchAsync(async (req, res) => {
   res.send(result);
 });
 
+const getLinhasDoPonto = catchAsync(async (req, res) => {
+  const result = await brtService.linhasDoPonto(req.params.ponto);
+  res.send(result);
+});
+
 module.exports = {
   getBrts,
   getBrtPorLinha,
   getTrajeto,
   getTrajetoLatLong,
   getVeiculos,
+  getLinhasDoPonto,
 };

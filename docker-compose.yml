@@ -23,6 +23,13 @@ services:
       - dbdata:/data/db
     networks:
       - node-network
+  web-server:
+    image: nginx
+    ports:
+      - 8000:80
+    volumes:
+      - ./tests/html:/usr/share/nginx/html
+
 
 volumes:
   dbdata:

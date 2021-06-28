@@ -5,6 +5,7 @@ const axios = require('axios').default;
 const moment = require('moment');
 const linhasBrt = require('../data/linhas-brt');
 const trajetosBrt = require('../data/trajetos-brt');
+const pontosBrt = require('../data/pontos-brt');
 
 const axiosInstance = axios.create({
   baseURL: 'http://webapibrt.rio.rj.gov.br/api/v1/brt',
@@ -58,6 +59,7 @@ const _getTrajetosDalinha = (linha) => {
 const _formatCoordinates = (coordinates, latlongLabel) => {
   return latlongLabel ? coordinates.map((w) => ({ lat: w[1], lng: w[0] })) : coordinates;
 };
+
 const coordenadasDoTrajeto = async (linha, latlongLabel = false) => {
   const trajeto = _getTrajetosDalinha(linha);
 
@@ -70,9 +72,16 @@ const coordenadasDoTrajeto = async (linha, latlongLabel = false) => {
   }));
 };
 
+const linhasDoPonto = async (ponto) => {
+
+  return pontosBrt.filter(p => p.codigoDoPonto === ponto)
+
+}
+
 module.exports = {
   queryBrts,
   queryLinhasBrt,
   coordenadasDoTrajeto,
   veiculos,
+  linhasDoPonto,
 };
