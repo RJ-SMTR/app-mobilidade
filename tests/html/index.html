@@ -11,7 +11,7 @@
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-  <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@0.7.7/dist/leaflet.css" />
   <style>
     html,
     body {
@@ -212,7 +212,7 @@
         if (!linha) return [];
         markerGroup.clearLayers();
         // inserir markers aqui
-        axios.get(`http://api-mobilidade.gabriel-milan.com/v1/brts/linha/${linha}/veiculo`)
+        axios.get(`https://api-mobilidade.gabriel-milan.com/v1/brts/linha/${linha}/veiculo`)
           .then(({ data }) => {
 
             data.map(v => {
@@ -230,7 +230,7 @@
         if (homeTab.style.display != 'none') {
           map.invalidateSize();
           if (linha) {
-            axios.get(`http://api-mobilidade.gabriel-milan.com/v1/brts/linha/${linha}/trajeto-latlong`)
+            axios.get(`https://api-mobilidade.gabriel-milan.com/v1/brts/linha/${linha}/trajeto-latlong`)
               .then(({ data }) => {
 
                 data.map(t => {
@@ -257,7 +257,7 @@
         let valor = $(this).val()
         if (valor.length === 4) {
 
-          axios.get(`http://api-mobilidade.gabriel-milan.com/v1/brts/ponto/${valor.toUpperCase()}`)
+          axios.get(`https://api-mobilidade.gabriel-milan.com/v1/brts/ponto/${valor.toUpperCase()}`)
             .then(({ data }) => {
 
               $('#listaDeLinhas').html('')
@@ -281,7 +281,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
   integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-<script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet@0.7.7/dist/leaflet.js"></script>
 <script src="https://kit.fontawesome.com/01e7154e9c.js" crossorigin="anonymous"></script>
 
 </html>
