@@ -1,133 +1,144 @@
 <!DOCTYPE HTML>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">    
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment-with-locales.min.js"></script>
-    
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
-    <style>
-      html, body {
-        height: 100%;
-        padding: 0;
-        margin: 0;
-      }
-      #map {
-        /* configure the size of the map */
-        width: 100%;
-        height: 100%;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="container container-size">
-      
-      <div class="tab-content tab-size" id="container">
-        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-          <div class="form-floating mb-3">
-            <input type="text" maxlength="4" size="4" required class="form-control" id="codigoDoPonto" placeholder="AA00">
-            <label for="codigoDoPonto">Código do Ponto</label>
-          </div>
 
-          <table id="tabelaDeLinhas" class="table table-striped" style="display: none;">
-            <thead>
-              <th>Linha</th>
-              <th>Trajeto</th>
-            </thead>
-            <tbody id="listaDeLinhas"></tbody>  
-          </table>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment-with-locales.min.js"></script>
 
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+    }
+
+    #map {
+      /* configure the size of the map */
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container container-size">
+
+    <div class="tab-content tab-size" id="container">
+      <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+        <div class="form-floating mb-3">
+          <input type="text" maxlength="4" size="4" required class="form-control" id="codigoDoPonto" placeholder="AA00">
+          <label for="codigoDoPonto">Código do Ponto</label>
         </div>
-        <div class="tab-pane fade" id="qr" role="tabpanel" aria-labelledby="qr-tab">
-              <video id="qr-video"></video>
-        </div>
-        <div class="tab-pane fade map-size" id="myMap" role="tabpanel" aria-labelledby="myMap-tab">          
-        </div>
+
+        <table id="tabelaDeLinhas" class="table table-striped" style="display: none;">
+          <thead>
+            <th>Linha</th>
+            <th>Trajeto</th>
+          </thead>
+          <tbody id="listaDeLinhas"></tbody>
+        </table>
+
       </div>
-      <ul class="nav nav-pills nav-fill" id="myTab" role="tablist">
-        <li class="nav-item" role="presentation">
-          <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true"><i class="fas fa-home"></i></button>
-        </li>
-        <li class="nav-item" role="presentation">
-          <button class="nav-link" id="qr-tab" data-bs-toggle="tab" data-bs-target="#qr" type="button" role="tab" aria-controls="qr" aria-selected="false"><i class="fas fa-qrcode"></i></button>
-        </li>
-        <li class="nav-item" role="presentation">
-          <button class="nav-link" id="myMap-tab" data-bs-toggle="tab" data-bs-target="#myMap" type="button" role="tab" aria-controls="myMap" aria-selected="false"><i class="fas fa-map-marked-alt"></i></i></button>
-        </li>
-      </ul>
+      <div class="tab-pane fade" id="qr" role="tabpanel" aria-labelledby="qr-tab">
+        <video id="qr-video"></video>
+      </div>
+      <div class="tab-pane fade map-size" id="myMap" role="tabpanel" aria-labelledby="myMap-tab">
+      </div>
     </div>
-<style>
-  html, body {
-    height: 100%;
-  }
+    <ul class="nav nav-pills nav-fill" id="myTab" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button"
+          role="tab" aria-controls="home" aria-selected="true"><i class="fas fa-home"></i></button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="qr-tab" data-bs-toggle="tab" data-bs-target="#qr" type="button" role="tab"
+          aria-controls="qr" aria-selected="false"><i class="fas fa-qrcode"></i></button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="myMap-tab" data-bs-toggle="tab" data-bs-target="#myMap" type="button" role="tab"
+          aria-controls="myMap" aria-selected="false"><i class="fas fa-map-marked-alt"></i></i></button>
+      </li>
+    </ul>
+  </div>
+  <style>
+    html,
+    body {
+      height: 100%;
+    }
 
-  #codigoDoPonto {
-    text-align: center;
-    text-transform: uppercase;
-    font-weight: bold;
-    font-size: 28px;
-    
-  }
+    #codigoDoPonto {
+      text-align: center;
+      text-transform: uppercase;
+      font-weight: bold;
+      font-size: 28px;
 
-  .container-size {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-  }
+    }
 
-  .container {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    max-width: 100%;
-  }
+    .container-size {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
 
-  #tabelaDeLinhas {
-    margin-top: 50px;
-  }
+    .container {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      max-width: 100%;
+    }
 
-  .tab-size {
-    height: calc(100% - 42px);
-  }
-  .map-size {
-    height: 100%;
-  }
-</style>
-<script type="module">
-  import QrScanner from "./js/qr-scanner.min.js";
-  QrScanner.WORKER_PATH = './js/qr-scanner-worker.min.js';
+    #tabelaDeLinhas {
+      margin-top: 50px;
+    }
 
-  const video = document.getElementById('qr-video');
-  // const camHasCamera = document.getElementById('cam-has-camera');
-  // const camHasFlash = document.getElementById('cam-has-flash');
-  // const flashToggle = document.getElementById('flash-toggle');
-  // const flashState = document.getElementById('flash-state');
-  // const camQrResult = document.getElementById('cam-qr-result');
-  // const camQrResultTimestamp = document.getElementById('cam-qr-result-timestamp');
-  // const fileSelector = document.getElementById('file-selector');
-  // const fileQrResult = document.getElementById('file-qr-result');
+    .tab-size {
+      height: calc(100% - 42px);
+    }
 
-  function setResult(result) {
-    console.warn(result)
+    .map-size {
+      height: 100%;
+    }
+  </style>
+  <script type="module">
+    import QrScanner from "./js/qr-scanner.min.js";
+    QrScanner.WORKER_PATH = './js/qr-scanner-worker.min.js';
+
+    const video = document.getElementById('qr-video');
+    // const camHasCamera = document.getElementById('cam-has-camera');
+    // const camHasFlash = document.getElementById('cam-has-flash');
+    // const flashToggle = document.getElementById('flash-toggle');
+    // const flashState = document.getElementById('flash-state');
+    // const camQrResult = document.getElementById('cam-qr-result');
+    // const camQrResultTimestamp = document.getElementById('cam-qr-result-timestamp');
+    // const fileSelector = document.getElementById('file-selector');
+    // const fileQrResult = document.getElementById('file-qr-result');
+
+    function setResult(result) {
+      console.warn(result)
       // label.textContent = result;
       // camQrResultTimestamp.textContent = new Date().toString();
       // label.style.color = 'teal';
       // clearTimeout(label.highlightTimeout);
       // label.highlightTimeout = setTimeout(() => label.style.color = 'inherit', 100);
-  }
+    }
 
-  // ####### Web Cam Scanning #######
+    // ####### Web Cam Scanning #######
 
-  //QrScanner.hasCamera().then(hasCamera => camHasCamera.textContent = hasCamera);
+    //QrScanner.hasCamera().then(hasCamera => camHasCamera.textContent = hasCamera);
 
-  const scanner = new QrScanner(video, result => setResult(result), error => {
+    const scanner = new QrScanner(video, result => setResult(result), error => {
       // camQrResult.textContent = error;
       // camQrResult.style.color = 'inherit';
-  });
-  scanner.start().then(() => {
+    });
+    scanner.start().then(() => {
       // scanner.hasFlash().then(hasFlash => {
       //     camHasFlash.textContent = hasFlash;
       //     if (hasFlash) {
@@ -137,7 +148,7 @@
       //         });
       //     }
       // });
-  });
+    });
 
   // for debugging
   // window.scanner = scanner;
@@ -173,82 +184,82 @@
   //         .catch(e => setResult(fileQrResult, e || 'No QR code found.'));
   // });
 
-</script>
-    <script>
-      var linha = '';
-      var map = null;
-      var markerGroup = null;
-      var _renderMarkers = null;
-      window.onload = function(){
-        // initialize Leaflet
-        map = L.map('myMap').setView({lon: -43.38451394176952, lat: -22.97373306625776}, 12);
-        
-        // add the OpenStreetMap tiles
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          maxZoom: 19,
-          attribution: '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap contributors</a>'
-        }).addTo(map);
+  </script>
+  <script>
+    var linha = '';
+    var map = null;
+    var markerGroup = null;
+    var _renderMarkers = null;
+    window.onload = function () {
+      // initialize Leaflet
+      map = L.map('myMap').setView({ lon: -43.38451394176952, lat: -22.97373306625776 }, 12);
 
-        // show the scale bar on the lower left corner
-        L.control.scale().addTo(map);
+      // add the OpenStreetMap tiles
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap contributors</a>'
+      }).addTo(map);
 
-        const urlParams = new URLSearchParams(window.location.search);
-        // var linha = urlParams.get('linha')
+      // show the scale bar on the lower left corner
+      L.control.scale().addTo(map);
 
-        markerGroup = L.layerGroup();
+      const urlParams = new URLSearchParams(window.location.search);
+      // var linha = urlParams.get('linha')
 
-        _renderMarkers = () => {    
-          if(!linha) return [];
-          markerGroup.clearLayers();
-          // inserir markers aqui
-          axios.get(`http://localhost:3000/v1/brts/linha/${linha}/veiculo`)
-          .then(({ data } ) => {
-            
+      markerGroup = L.layerGroup();
+
+      _renderMarkers = () => {
+        if (!linha) return [];
+        markerGroup.clearLayers();
+        // inserir markers aqui
+        axios.get(`http://api-mobilidade.gabriel-milan.com/v1/brts/linha/${linha}/veiculo`)
+          .then(({ data }) => {
+
             data.map(v => {
-              var marker = L.marker([v.latitude,v.longitude ])
+              var marker = L.marker([v.latitude, v.longitude])
               marker.bindPopup(`${v.velocidade}km/h, ${moment(v.dataHora)}`)
               marker.addTo(markerGroup);
             })
           })
-          
-          markerGroup.addTo(map)
-        }
-        setInterval(function() { _renderMarkers() }, 5000);        
-        var homeTab = document.getElementById('myMap');
-        var observer1 = new MutationObserver(function(){
-          if(homeTab.style.display != 'none'){
-            map.invalidateSize();
-            if(linha){
-              axios.get(`http://localhost:3000/v1/brts/linha/${linha}/trajeto-latlong`)
-              .then(({ data } ) => {
-                
+
+        markerGroup.addTo(map)
+      }
+      setInterval(function () { _renderMarkers() }, 5000);
+      var homeTab = document.getElementById('myMap');
+      var observer1 = new MutationObserver(function () {
+        if (homeTab.style.display != 'none') {
+          map.invalidateSize();
+          if (linha) {
+            axios.get(`http://api-mobilidade.gabriel-milan.com/v1/brts/linha/${linha}/trajeto-latlong`)
+              .then(({ data }) => {
+
                 data.map(t => {
-                  var polyline = L.polyline(t.coordinates, {color: t.strokeColor}).addTo(map);
+                  var polyline = L.polyline(t.coordinates, { color: t.strokeColor }).addTo(map);
                   map.fitBounds(polyline.getBounds());
                 })
               })
-            }
           }
-        });
-        observer1.observe(homeTab, {attributes: true}); 
-      }
-    </script>
+        }
+      });
+      observer1.observe(homeTab, { attributes: true });
+    }
+  </script>
 
-    <script>
-      const showMap = (l) => {
-        linha = l;
-        _renderMarkers();
-        $('#myMap-tab').tab('show')
-      }
+  <script>
+    const showMap = (l) => {
+      linha = l;
+      _renderMarkers();
+      $('#myMap-tab').tab('show')
+    }
 
-      $(document).ready(function(){
-        $('#codigoDoPonto').keyup(function() { 
-          let valor = $(this).val()
-          if(valor.length === 4){
-            
-            axios.get(`http://localhost:3000/v1/brts/ponto/${valor.toUpperCase()}`)
-            .then(({ data } ) => {
-              
+    $(document).ready(function () {
+      $('#codigoDoPonto').keyup(function () {
+        let valor = $(this).val()
+        if (valor.length === 4) {
+
+          axios.get(`http://api-mobilidade.gabriel-milan.com/v1/brts/ponto/${valor.toUpperCase()}`)
+            .then(({ data }) => {
+
               $('#listaDeLinhas').html('')
 
               data.map(l => {
@@ -259,17 +270,18 @@
 
             })
 
-          } else {
-            $('#tabelaDeLinhas').hide()
+        } else {
+          $('#tabelaDeLinhas').hide()
 
-          }
-        })
-      });
-    </script>
-  </body>
-  
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-  <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
-  <script src="https://kit.fontawesome.com/01e7154e9c.js" crossorigin="anonymous"></script>
+        }
+      })
+    });
+  </script>
+</body>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+<script src="https://kit.fontawesome.com/01e7154e9c.js" crossorigin="anonymous"></script>
 
 </html>
