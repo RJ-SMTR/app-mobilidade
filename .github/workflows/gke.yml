@@ -40,7 +40,7 @@ jobs:
       - name: Build API Docker image
         run: |-
           docker build \
-            --file Dockerfile.api
+            --file Dockerfile.api \
             --tag "gcr.io/$PROJECT_ID/$IMAGE_API:$GITHUB_SHA" \
             .
 
@@ -51,7 +51,7 @@ jobs:
       - name: Build web app Docker image
         run: |-
           docker build \
-            --file Dockerfile.app
+            --file Dockerfile.app \
             --tag "gcr.io/$PROJECT_ID/$IMAGE_APP:$GITHUB_SHA" \
             .
 
