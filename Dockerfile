@@ -1,4 +1,6 @@
-FROM node:alpine
+FROM node:lts-alpine
+
+RUN npm i -g pm2
 
 RUN mkdir -p /usr/src/node-app && chown -R node:node /usr/src/node-app
 
