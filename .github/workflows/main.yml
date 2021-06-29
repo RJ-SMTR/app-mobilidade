@@ -1,0 +1,41 @@
+name: Tests
+
+on:
+  push:
+    branches:
+      - "*"
+  pull_request:
+
+jobs:
+  tests:
+    name: ${{ matrix.os }}${{ matrix.arch }} - Node v${{ matrix.node-version }} - MongoDB ${{ matrix.mongodb-version }} - tests
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        arch: [x64]
+        node-version: ["14.x"]
+        mongodb-version: ["4.2.1-bionic"]
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Node.js v${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+          architecture: ${{ matrix.arch }}
+
+      - name: Create mongo Docker container
+        uses: DigiPie/mongo-action@v1.0.1
+        with:
+          image-version: ${{ matrix.mongodb-version }}
+          port: 27017
+
+      - name: Install dependencies with yarn
+        run: yarn install
+
+      - name: Test
+        run: yarn test
+        env:
+          MONGODB_URL: mongodb://localhost:27017/node-boilerplate
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
