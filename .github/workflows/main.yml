@@ -32,14 +32,10 @@ jobs:
           port: 27017
 
       - name: Install dependencies with yarn
-        uses: borales/actions-yarn@v2.3.0
-        with:
-          cmd: install
+        run: yarn install
 
       - name: Test
-        uses: borales/actions-yarn@v2.3.0
-        with:
-          cmd: test
+        run: yarn test
         env:
           MONGODB_URL: mongodb://localhost:27017/node-boilerplate
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
