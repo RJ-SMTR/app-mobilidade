@@ -1,19 +1,13 @@
 version: '3'
 
 services:
-  node-app:
-    build: .
-    image: node-app
+  api:
+    image: grc.io/api
     environment:
       MONGODB_URL: mongodb://mongodb:27017/node-boilerplate
       JWT_SECRET: "${JWT_SECRET}"
     ports:
       - '3000:3000'
-    depends_on:
-      - mongodb
-    networks:
-      - node-network
-    command: yarn start
 
   mongodb:
     image: mongo:4.2.1-bionic
@@ -21,20 +15,12 @@ services:
       - '27017:27017'
     volumes:
       - dbdata:/data/db
-    networks:
-      - node-network
 
-  web-server:
-    image: nginx
+  web-app:
+    image: grc.io/webapp
     ports:
-      - 8000:80
-    volumes:
-      - ./tests/html:/usr/share/nginx/html
+      - 80:80
 
 
 volumes:
   dbdata:
-
-networks:
-  node-network:
-    driver: bridge
