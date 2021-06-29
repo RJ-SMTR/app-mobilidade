@@ -11,7 +11,8 @@ env:
   PROJECT_ID: ${{ secrets.GKE_PROJECT_DEV }}
   GKE_CLUSTER: sandbox
   GKE_ZONE: us-central1-c
-  IMAGE: mobility-api
+  IMAGE_API: mobility-api
+  IMAGE_APP: mobility-app
 
 jobs:
   build:
@@ -36,11 +37,36 @@ jobs:
           location: ${{ env.GKE_ZONE }}
           credentials: ${{ secrets.GKE_SA_KEY_DEV }}
 
-      - name: Build Docker image
+      - name: Build API Docker image
         run: |-
           docker build \
-            --tag "gcr.io/$PROJECT_ID/$IMAGE:$GITHUB_SHA" \
+            --file Dockerfile.api
+            --tag "gcr.io/$PROJECT_ID/$IMAGE_API:$GITHUB_SHA" \
             .
-      - name: Publish Docker image
+
+      - name: Publish API Docker image
         run: |-
-          docker push "gcr.io/$PROJECT_ID/$IMAGE:$GITHUB_SHA"
+          docker push "gcr.io/$PROJECT_ID/$IMAGE_API:$GITHUB_SHA"
+
+      - name: Build web app Docker image
+        run: |-
+          docker build \
+            --file Dockerfile.app
+            --tag "gcr.io/$PROJECT_ID/$IMAGE_APP:$GITHUB_SHA" \
+            .
+
+      - name: Publish web app Docker image
+        run: |-
+          docker push "gcr.io/$PROJECT_ID/$IMAGE_APP:$GITHUB_SHA"
+
+      - name: Set up Kustomize
+        run: |-
+          curl -sfLo kustomize https://github.com/kubernetes-sigs/kustomize/releases/download/v3.1.0/kustomize_3.1.0_linux_amd64
+          chmod u+x ./kustomize
+
+      - name: Deploy
+        run: |-
+          ./kustomize edit set image gcr.io/PROJECT_ID/IMAGE_API:TAG=gcr.io/$PROJECT_ID/$IMAGE_API:$GITHUB_SHA
+          ./kustomize edit set image gcr.io/PROJECT_ID/IMAGE_APP:TAG=gcr.io/$PROJECT_ID/$IMAGE_APP:$GITHUB_SHA
+          ./kustomize build . | kubectl apply -f -
+          kubectl get services -o wide
