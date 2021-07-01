@@ -9,7 +9,7 @@ on:
 
 env:
   PROJECT_ID: ${{ secrets.GKE_PROJECT_PROD }}
-  GKE_CLUSTER: sandbox
+  GKE_CLUSTER: ${{ secrets.GKE_CLUSTER_NAME_PROD }}
   GKE_ZONE: us-central1-c
   IMAGE_API: mobility-api
   IMAGE_APP: mobility-app
