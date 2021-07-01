@@ -8,7 +8,7 @@ on:
       - completed
 
 env:
-  PROJECT_ID: ${{ secrets.GKE_PROJECT_DEV }}
+  PROJECT_ID: ${{ secrets.GKE_PROJECT_PROD }}
   GKE_CLUSTER: sandbox
   GKE_ZONE: us-central1-c
   IMAGE_API: mobility-api
@@ -24,8 +24,8 @@ jobs:
       - name: Setup Google Cloud CLI
         uses: google-github-actions/setup-gcloud@v0.2.1
         with:
-          service_account_key: ${{ secrets.GKE_SA_KEY_DEV }}
-          project_id: ${{ secrets.GKE_PROJECT_DEV }}
+          service_account_key: ${{ secrets.GKE_SA_KEY_PROD }}
+          project_id: ${{ secrets.GKE_PROJECT_PROD }}
 
       - name: Configure Docker with gcloud
         run: |-
@@ -35,7 +35,7 @@ jobs:
         with:
           cluster_name: ${{ env.GKE_CLUSTER }}
           location: ${{ env.GKE_ZONE }}
-          credentials: ${{ secrets.GKE_SA_KEY_DEV }}
+          credentials: ${{ secrets.GKE_SA_KEY_PROD }}
 
       - name: Build API Docker image
         run: |-
