@@ -111,7 +111,12 @@
     import QrScanner from "./js/qr-scanner.min.js";
     QrScanner.WORKER_PATH = './js/qr-scanner-worker.min.js';
 
+    $.fn.changeVal = function (v) {
+      return this.val(v).trigger("change");
+    }
+
     const video = document.getElementById('qr-video');
+    const homeButton = document.getElementById('home-tab');
     // const camHasCamera = document.getElementById('cam-has-camera');
     // const camHasFlash = document.getElementById('cam-has-flash');
     // const flashToggle = document.getElementById('flash-toggle');
@@ -122,12 +127,10 @@
     // const fileQrResult = document.getElementById('file-qr-result');
 
     function setResult(result) {
-      console.warn(result)
-      // label.textContent = result;
-      // camQrResultTimestamp.textContent = new Date().toString();
-      // label.style.color = 'teal';
-      // clearTimeout(label.highlightTimeout);
-      // label.highlightTimeout = setTimeout(() => label.style.color = 'inherit', 100);
+      if ($("#qr").css("display") == "block") {
+        $("#codigoDoPonto").changeVal(result);
+        homeButton.click();
+      }
     }
 
     // ####### Web Cam Scanning #######
@@ -253,7 +256,7 @@
     }
 
     $(document).ready(function () {
-      $('#codigoDoPonto').keyup(function () {
+      $('#codigoDoPonto').change(function () {
         let valor = $(this).val()
         if (valor.length === 4) {
 
