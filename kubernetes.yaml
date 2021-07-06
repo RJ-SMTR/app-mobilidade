@@ -202,9 +202,20 @@ spec:
   tls:
     - hosts:
         - 34.71.77.125.nip.io
+        - mobilidade.rio
       secretName: app-mobilidade-tls
   rules:
     - host: 34.71.77.125.nip.io
+      http:
+        paths:
+          - path: /pontos
+            pathType: Prefix
+            backend:
+              service:
+                name: mobilidade-app
+                port:
+                  number: 80
+    - host: mobilidade.rio
       http:
         paths:
           - path: /pontos
