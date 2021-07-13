@@ -64,10 +64,10 @@ metadata:
 spec:
   tls:
     - hosts:
-        - api.mobilidade.rio
+        - api.34.71.77.125.nip.io
       secretName: api-mobilidade-tls
   rules:
-    - host: api.mobilidade.rio
+    - host: api.34.71.77.125.nip.io
       http:
         paths:
           - path: /
@@ -201,9 +201,20 @@ metadata:
 spec:
   tls:
     - hosts:
+        - 34.71.77.125.nip.io
         - mobilidade.rio
       secretName: app-mobilidade-tls
   rules:
+    - host: 34.71.77.125.nip.io
+      http:
+        paths:
+          - path: /pontos
+            pathType: Prefix
+            backend:
+              service:
+                name: mobilidade-app
+                port:
+                  number: 80
     - host: mobilidade.rio
       http:
         paths:
