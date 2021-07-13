@@ -216,7 +216,7 @@
         if (!linha) return [];
         markerGroup.clearLayers();
         // inserir markers aqui
-        axios.get(`https://api.34.71.77.125.nip.io/v1/brts/linha/${linha}/veiculo`)
+        axios.get(`https://api.mobilidade.rio/v1/brts/linha/${linha}/veiculo`)
           .then(({ data }) => {
 
             data.map(v => {
@@ -234,7 +234,7 @@
         if (homeTab.style.display != 'none') {
           map.invalidateSize();
           if (linha) {
-            axios.get(`https://api.34.71.77.125.nip.io/v1/brts/linha/${linha}/trajeto-latlong`)
+            axios.get(`https://api.mobilidade.rio/v1/brts/linha/${linha}/trajeto-latlong`)
               .then(({ data }) => {
 
                 data.map(t => {
@@ -261,7 +261,7 @@
         let valor = $(this).val()
         if (valor.length === 4) {
 
-          axios.get(`https://api.34.71.77.125.nip.io/v1/brts/ponto/${valor.toUpperCase()}`)
+          axios.get(`https://api.mobilidade.rio/v1/brts/ponto/${valor.toUpperCase()}`)
             .then(({ data }) => {
 
               $('#listaDeLinhas').html('')
